@@ -118,7 +118,7 @@ const forgetPassword = async (req,res) =>{
 const resetPassword = async (req,res)=>{
     try {
         let token = req.body.token
-
+        console.log(token)
         if(token){
             let user = await userModel.findOne({
                 resetToken:req.body.token
