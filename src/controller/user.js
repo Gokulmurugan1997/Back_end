@@ -41,6 +41,7 @@ const login = async (req,res)=>{
                     id:user._id,
                     role:user.role
                 })
+                console.log(token)
                 res.status(200).send({
                     message:"login successful",
                     name:user.name,
@@ -68,6 +69,25 @@ const login = async (req,res)=>{
     }
 }
 
+const editUserById = async(req,res)=>{
+    try {
+        
+        const updateUser = await userModel.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {new:true}
+        )
+        if (!updateUser) {
+            return res.status(404).send({ message: 'user edited successfully' });
+          }
+      
+          res.send(updateUser);
+    } catch (error) {
+        res.status(500).send({
+            message:error.message||"server error"
+    })
+    }
+}
 const forgetPassword = async (req,res) =>{
     try {
         const user = await userModel.findOne({email:req.body.email})
@@ -249,5 +269,6 @@ export default{
     markdownFindById,
     updateMarkdown,
     deleteMarkdown,
-    markdownList
+    markdownList,
+    editUserById
 }
